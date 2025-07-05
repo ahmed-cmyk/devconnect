@@ -59,23 +59,23 @@ npm run dev
 
 ## MVP
 
-✅ Multi-provider auth (email + GitHub)
-✅ Channel list — create/join/leave
-✅ Group chat in channel
-✅ User profile (avatar & name)
-✅ Store chat history in DB
-✅ Online/offline indicator
-✅ Deploy on Vercel + Render
+- Multi-provider auth (email + GitHub)
+- Channel list — create/join/leave
+- Group chat in channel
+- User profile (avatar & name)
+- Store chat history in DB
+- Online/offline indicator
+- Deploy on Vercel + Render
 
 ---
 
 ## Stretch Goals
 
-🌟 Private 1:1 chat
-🌟 Video call in channel (basic WebRTC P2P)
-🌟 Typing indicators & read receipts
-🌟 File sharing in chat
-🌟 Notifications (email or in-app)
-🌟 Advanced channel settings (invite-only, roles)
+- Private 1:1 chat
+- Video call in channel (basic WebRTC P2P)
+- Typing indicators & read receipts
+- File sharing in chat
+- Notifications (email or in-app)
+- Advanced channel settings (invite-only, roles)
 
 ---
