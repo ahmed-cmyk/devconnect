@@ -1,5 +1,3 @@
-# 📄 README Draft
-
 ## 🚀 DevConnect — Developer Collaboration Platform
 
 A real-time platform for developers to chat & collaborate.
