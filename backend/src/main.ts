@@ -1,17 +1,12 @@
-import express from 'express';
-import type { Request, Response } from 'express';
+import { connectDB } from './config/db';
+import app from './app';
 
-const app = express();
-const port = 8000;
+const PORT = process.env.PORT || 8000;
 
-app.use(express.json());
+(async () => {
+  await connectDB();
 
-app.get('/health', (req: Request, res: Response) => {
-  res.send("Works fine!");
-});
-
-app.listen(port, '0.0.0.0', () => {
-  console.log(`✅ Backend is listening on http://0.0.0.0:${port}`);
-}).on('error', (err) => {
-  console.error('❌ Server error:', err);
-});
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running on http://localhost:${PORT}`);
+  });
+})();
