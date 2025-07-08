@@ -4,6 +4,7 @@ export default defineConfig({
   test: {
     environment: 'node',
     globals: true,
+    setupFiles: ['./tests/setup.ts'], // Add a setup file for environment variables
     coverage: {
       reporter: ['text', 'html']
     }

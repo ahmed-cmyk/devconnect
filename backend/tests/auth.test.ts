@@ -31,6 +31,28 @@ describe('Auth Routes', () => {
     expect(res.body.email).toBe('test@example.com');
   });
 
+  it('should not register a user with an existing email', async () => {
+    const res = await request(app).post('/auth/register').send({
+      name: 'jane doe',
+      email: 'test@example.com',
+      password: 'password123'
+    });
+
+    expect(res.status).toBe(409);
+    expect(res.body).toHaveProperty('message', 'User already exists');
+  });
+
+  it('should not register a user with invalid data', async () => {
+    const res = await request(app).post('/auth/register').send({
+      name: 'john doe',
+      email: 'invalid-email',
+      password: '123' // Too short password
+    });
+
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty('message'); // Expect a validation error message
+  });
+
   it('should allow users to login', async () => {
     const res = await request(app).post('/auth/login').send({
       email: 'test@example.com',
@@ -39,5 +61,25 @@ describe('Auth Routes', () => {
 
     expect(res.status).toBe(200);
     expect(res.body).toHaveProperty('token');
+  });
+
+  it('should not allow login with incorrect password', async () => {
+    const res = await request(app).post('/auth/login').send({
+      email: 'test@example.com',
+      password: 'wrongpassword'
+    });
+
+    expect(res.status).toBe(401);
+    expect(res.body).toHaveProperty('message', 'Invalid credentials');
+  });
+
+  it('should not allow login with unregistered email', async () => {
+    const res = await request(app).post('/auth/login').send({
+      email: 'nonexistent@example.com',
+      password: 'password123'
+    });
+
+    expect(res.status).toBe(401);
+    expect(res.body).toHaveProperty('message', 'Invalid credentials');
   });
 });
