@@ -16,18 +16,19 @@ beforeAll(async () => {
   console.log('✅ Connected to in-memory MongoDB');
 
   // Register a user for testing user routes
-  await request(app).post('/auth/register').send({
+  await request(app).post('/api/auth/register').send({
     name: 'test user',
     email: 'testuser@example.com',
     password: 'password123'
   });
 
   // Login the user to get the token
-  const loginRes = await request(app).post('/auth/login').send({
+  const loginRes = await request(app).post('/api/auth/login').send({
     email: 'testuser@example.com',
     password: 'password123'
   });
   token = loginRes.body.token;
+  console.log('login body', loginRes.body);
   userId = loginRes.body.user._id;
 });
 
@@ -39,7 +40,7 @@ afterAll(async () => {
 describe('User Routes', () => {
   it('should get user profile', async () => {
     const res = await request(app)
-      .get(`/users/${userId}`)
+      .get(`/api/users/${userId}`)
       .set('Authorization', `Bearer ${token}`);
 
     expect(res.status).toBe(200);
@@ -49,14 +50,14 @@ describe('User Routes', () => {
 
   it('should not get user profile without token', async () => {
     const res = await request(app)
-      .get(`/users/${userId}`);
+      .get(`/api/users/${userId}`);
 
     expect(res.status).toBe(401);
   });
 
   it('should not get user profile with invalid token', async () => {
     const res = await request(app)
-      .get(`/users/${userId}`)
+      .get(`/api/users/${userId}`)
       .set('Authorization', `Bearer invalidtoken`);
 
     expect(res.status).toBe(401);
@@ -64,7 +65,7 @@ describe('User Routes', () => {
 
   it('should update user profile', async () => {
     const res = await request(app)
-      .put(`/users/${userId}`)
+      .put(`/api/users/${userId}`)
       .set('Authorization', `Bearer ${token}`)
       .send({
         name: 'updated user',
@@ -78,7 +79,7 @@ describe('User Routes', () => {
 
   it('should not update user profile with invalid data', async () => {
     const res = await request(app)
-      .put(`/users/${userId}`)
+      .put(`/api/users/${userId}`)
       .set('Authorization', `Bearer ${token}`)
       .send({
         email: 'invalid-email'
@@ -89,7 +90,7 @@ describe('User Routes', () => {
 
   it('should not update user profile without token', async () => {
     const res = await request(app)
-      .put(`/users/${userId}`)
+      .put(`/api/users/${userId}`)
       .send({
         name: 'another user'
       });
@@ -99,7 +100,7 @@ describe('User Routes', () => {
 
   it('should not update user profile with invalid token', async () => {
     const res = await request(app)
-      .put(`/users/${userId}`)
+      .put(`/api/users/${userId}`)
       .set('Authorization', `Bearer invalidtoken`)
       .send({
         name: 'another user'
